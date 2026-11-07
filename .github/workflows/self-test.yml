@@ -1,0 +1,33 @@
+name: self-test
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  documents-open:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every sample document opens in Layers with text, edit and sign
+        run: |
+          git ls-files '*.docx' '*.xlsx' '*.pptx' > /tmp/files
+          node --input-type=module -e '
+          import fs from "node:fs";
+          const files = fs.readFileSync("/tmp/files", "utf8").split("\n").filter(Boolean);
+          if (!files.length) throw new Error("no sample documents");
+          const UA = { "User-Agent": "layers-door-self-test LayersQA-bot/1.0" };
+          for (const f of files) {
+            const url = "https://raw.githubusercontent.com/" + process.env.GITHUB_REPOSITORY + "/" + process.env.GITHUB_SHA + "/" + f.split("/").map(encodeURIComponent).join("/");
+            const r = await fetch("https://app.layers.md/v1/public/viewer/import", { method: "POST", headers: { "Content-Type": "application/json", ...UA }, body: JSON.stringify({ url, from: "self-test" }) });
+            const b = await r.json();
+            if (!r.ok || !b.openUrl) throw new Error(f + ": import " + JSON.stringify(b));
+            const token = new URLSearchParams(new URL(b.openUrl).hash.slice(1)).get("access_token");
+            const c = await fetch("https://app.layers.md/v1/public/viewer/" + b.draftId + "/content", { headers: { "X-Guest-Draft-Token": token, ...UA } });
+            const d = await c.json();
+            if (!c.ok || !d.html || d.html.length < 200 || !d.editorAction) throw new Error(f + ": content " + c.status);
+            const s = await fetch("https://app.layers.md/t/sign-document-phone-whatsapp?draft=" + b.draftId + "&from=self-test", { headers: UA });
+            if (s.status !== 200) throw new Error(f + ": sign page " + s.status);
+            console.log("ok", f, b.kind, d.html.length + " chars, edit and sign ready");
+          }'
