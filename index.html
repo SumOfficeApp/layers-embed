@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Layers Embed</title>
+<meta name="description" content="Let visitors read, fill in and sign your contracts right on your website.">
+<link rel="canonical" href="https://sumofficeapp.github.io/layers-embed/">
+<style>
+:root{--ink:#1d2330;--muted:#5f6673;--line:#e3e6eb;--brand:#185abc;--bg:#f6f7f9;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--ink:#e9ecf1;--muted:#a3aab5;--line:#2c323c;--bg:#14171c;--card:#1b1f26}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:40px 16px 64px}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 12px}h2{font-size:22px;margin:40px 0 10px}
+.lead{font-size:19px;color:var(--muted);margin:0 0 28px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+.doc{display:flex;align-items:center;flex-wrap:wrap;gap:6px}.doc a:first-child{font-weight:600;color:var(--ink)}
+pre{background:#0f1720;color:#e6edf3;padding:14px;border-radius:10px;overflow:auto;font-size:14px;line-height:1.5}
+.cta{display:inline-block;background:var(--brand);color:#fff;padding:12px 18px;border-radius:10px;font-weight:650;text-decoration:none;margin:6px 8px 6px 0}
+.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+ul{padding-left:20px}small,.muted{color:var(--muted)}footer{margin-top:48px;font-size:14px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>Let visitors read, fill in and sign your contracts right on your website.</h1>
+<p class="lead">One line on any website. Links to .docx, .xlsx and .pptx files get a button: the visitor reads the file, fills it in and sends it for signature in the browser. Nothing to install, no account to read.</p>
+
+<div class="card">
+  <strong>Try it on a real contract</strong>
+  <p class="doc"><a data-layers href="samples/service-agreement.docx">Website Design Services Agreement (.docx)</a></p>
+  <p class="doc"><a data-layers href="samples/invoice.xlsx">Invoice INV-2026-014 (.xlsx)</a></p>
+  <small>Click the blue button. The file opens in Layers, where you can edit it, sign it or save a copy.</small>
+</div>
+
+<div class="card">
+  <strong>Or put a live document on the page</strong>
+  <p class="muted">A ready invoice with tax that your visitor fills in right here and downloads as a finished file.</p>
+  <div data-layers-form="invoice-template-with-tax-calculation" data-height="720" data-title="Invoice with tax calculation"></div>
+</div>
+
+<h2>Add it to your site</h2>
+<p>Paste before <code>&lt;/body&gt;</code>:</p>
+<pre>&lt;script src="https://cdn.jsdelivr.net/gh/SumOfficeApp/layers-embed@v1/embed.js" defer&gt;&lt;/script&gt;</pre>
+<p>Then mark a file link, or let every office link get the button:</p>
+<pre>&lt;a data-layers href="/files/contract.docx"&gt;Contract&lt;/a&gt;
+
+&lt;script src="https://cdn.jsdelivr.net/gh/SumOfficeApp/layers-embed@v1/embed.js" data-links="all" defer&gt;&lt;/script&gt;</pre>
+<p>A live document from the catalog of 4,000+ letters, contracts and calculators:</p>
+<pre>&lt;div data-layers-form="freelance-invoice-payment-reminder" data-height="760"&gt;&lt;/div&gt;</pre>
+<p class="muted">Works with plain HTML, Ghost, Webflow, Squarespace, Docusaurus, MkDocs, Hugo, Jekyll and any page that accepts a script tag. The file must be reachable by a public link.</p>
+
+<h2>What your visitor gets</h2>
+<ul>
+<li>The document opens as a fast page, on a phone too.</li>
+<li>They fill in their part and send it for signature. The other side signs from a link.</li>
+<li>They save a finished copy to their own Layers account.</li>
+</ul>
+<p>
+  <a class="cta" href="https://app.layers.md/register?from=door-embed">Start with Layers free</a>
+  <a class="cta ghost" href="https://layers.md/pricing?from=door-embed">Plans for signatures and teams</a>
+</p>
+
+<footer>
+  Open source, MIT. Code: <a href="https://github.com/SumOfficeApp/layers-embed">SumOfficeApp/layers-embed</a>. Made by SumOffice. Documents are processed by Layers only after a click.
+</footer>
+</main>
+<script src="embed.js" data-from="door-embed" defer></script>
+</body>
+</html>
